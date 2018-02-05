@@ -14,7 +14,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-require File.join(__dir__, '..', 'lib', 'nypl_log_formatter')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'nypl_log_formatter')
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
