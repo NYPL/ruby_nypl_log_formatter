@@ -19,6 +19,7 @@ describe NyplLogFormatter do
     end
 
     expect(parsed_log['level']).to eq("ERROR")
+    expect(parsed_log['message']).to eq("never hit your grandma with a shovel")
 
     tmp.close
   end
