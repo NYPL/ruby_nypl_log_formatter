@@ -1,14 +1,15 @@
 # NyplLogFormatter
 
+[![Build Status](https://travis-ci.org/NYPL/ruby_nypl_log_formatter.svg?branch=master)](https://travis-ci.org/NYPL/ruby_nypl_log_formatter)
+
 This is a logger that logs according to [NYPL's agreed-upon format](https://github.com/NYPL/engineering-general/blob/master/standards/logging.md).  
 It is a subclass of the stdlib Logger class, so it works exactly as a regular Logger does.
 The only advantage to subclassing is that we can bake in [custom formatting](https://stackoverflow.com/questions/14382252/how-to-format-ruby-logger).
 
 ## Ruby Version Support
 
-This has only been tested against ruby 2.4.1 but _should_ work in ruby 2.x.
-We should have a very basic test suite and run it across multiple ruby versions
-using a CI service like Travis.
+Our [`.travis.yml`]('.travis.yml') tests against multiple Ruby versions.
+Feel free to add more.
 
 ## Installation
 
