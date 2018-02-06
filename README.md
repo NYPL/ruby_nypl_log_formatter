@@ -8,7 +8,7 @@ The only advantage to subclassing is that we can bake in [custom formatting](htt
 
 ## Ruby Version Support
 
-Our [`.travis.yml`]('.travis.yml') tests against multiple Ruby versions.
+Our [`.travis.yml`](.travis.yml) tests against multiple Ruby versions.
 Feel free to add more.
 
 ## Installation
