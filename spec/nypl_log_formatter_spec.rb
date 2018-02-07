@@ -23,4 +23,18 @@ describe NyplLogFormatter do
 
     tmp.close
   end
+
+  it "can log arbirary keys" do
+    tmp = Tempfile.new('flyingsaucerattack')
+    logger = NyplLogFormatter.new(tmp)
+    logger.error(
+      'never hit your grandma with a shovel',
+      user: {email: 'simon@example.com', name: 'simon'}
+    )
+    tmp.rewind
+    parsed_log = JSON.parse(tmp.read)
+    expect(parsed_log['message']).to eq('never hit your grandma with a shovel')
+    expect(parsed_log['user']['email']).to eq('simon@example.com')
+    expect(parsed_log['user']['name']).to eq('simon')
+  end
 end
