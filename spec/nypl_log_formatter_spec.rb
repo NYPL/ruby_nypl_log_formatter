@@ -45,4 +45,23 @@ describe NyplLogFormatter do
     # Logs a second key whos value is an Array
     expect(parsed_log['permissions']).to eq(['admin', 'good-boy'])
   end
+
+  it "works when logging message in a block" do
+    tmp = Tempfile.new('flyingsaucerattack')
+    logger = NyplLogFormatter.new(tmp)
+    logger.error {'never hit your grandma with a shovel'}
+    tmp.rewind
+    parsed_log = JSON.parse(tmp.read)
+    expect(parsed_log['message']).to eq('never hit your grandma with a shovel')
+  end
+
+  it "works when logging with progname" do
+    tmp = Tempfile.new('flyingsaucerattack')
+    logger = NyplLogFormatter.new(tmp)
+    logger.info('my_great_app') { "Initializing..." }
+    tmp.rewind
+    parsed_log = JSON.parse(tmp.read)
+    expect(parsed_log['message']).to eq('Initializing...')
+    expect(parsed_log['programName']).to eq('my_great_app')
+  end
 end

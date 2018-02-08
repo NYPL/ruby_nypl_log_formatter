@@ -30,13 +30,20 @@ class NyplLogFormatter < ::Logger
     self.formatter = proc do |severity, datetime, progname, msg|
       message_hash = {
         level:     severity.upcase,
-        message:   msg.shift,
+        message:   msg.is_a?(Array) ? msg.shift : msg,
         timestamp: Time.now.strftime("%Y-%m-%dT%H:%M:%S.%L%z")
       }
-      msg.each do |additional_key_values|
-        additional_key_values.each do |key, value|
-          message_hash[key] = value
+
+      if msg.is_a?(Array)
+        msg.each do |additional_key_values|
+          additional_key_values.each do |key, value|
+            message_hash[key] = value
+          end
         end
+      end
+
+      if progname && !progname.empty?
+        message_hash['programName'] = progname[0]
       end
 
       "#{JSON.generate(message_hash)}\n"
