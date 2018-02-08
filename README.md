@@ -54,6 +54,26 @@ That includes:
 
 For more info see your ruby version's documentation for the `Logger` class.
 
+### Logging Additional Key/Value Pairs
+
+You can pass a second argument, a Hash that will end up as keys/values in the
+logged JSON.
+
+```ruby
+logger = NyplLogFormatter.new('path/to/file.log')
+
+logger.error(
+  'Something went wrong',
+  user: {email: 'simon@example.com', name: 'simon'},
+  permissions: ['admin', 'good-boy']
+)
+
+# Contents of file.log
+  # Logfile created on 2018-01-17 15:51:31 -0500 by logger.rb/61378
+  #{"level":"ERROR","message":"Something went wrong","timestamp":"2018-02-07T16:47:22.017-0500","user":{"email":"simon@example.com","name":"simon"},"permissions":["admin","good-boy"]}
+
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

@@ -23,4 +23,45 @@ describe NyplLogFormatter do
 
     tmp.close
   end
+
+  it "can log arbirary keys" do
+    tmp = Tempfile.new('flyingsaucerattack')
+    logger = NyplLogFormatter.new(tmp)
+    logger.error(
+      'never hit your grandma with a shovel',
+      user: {email: 'simon@example.com', name: 'simon'},
+      permissions: ['admin', 'good-boy']
+    )
+    tmp.rewind
+    parsed_log = JSON.parse(tmp.read)
+
+    # Logs a plain-old message
+    expect(parsed_log['message']).to eq('never hit your grandma with a shovel')
+
+    # Logs a key whose value is a hash/simple object
+    expect(parsed_log['user']['email']).to eq('simon@example.com')
+    expect(parsed_log['user']['name']).to eq('simon')
+
+    # Logs a second key whos value is an Array
+    expect(parsed_log['permissions']).to eq(['admin', 'good-boy'])
+  end
+
+  it "works when logging message in a block" do
+    tmp = Tempfile.new('flyingsaucerattack')
+    logger = NyplLogFormatter.new(tmp)
+    logger.error {'never hit your grandma with a shovel'}
+    tmp.rewind
+    parsed_log = JSON.parse(tmp.read)
+    expect(parsed_log['message']).to eq('never hit your grandma with a shovel')
+  end
+
+  it "works when logging with progname" do
+    tmp = Tempfile.new('flyingsaucerattack')
+    logger = NyplLogFormatter.new(tmp)
+    logger.info('my_great_app') { "Initializing..." }
+    tmp.rewind
+    parsed_log = JSON.parse(tmp.read)
+    expect(parsed_log['message']).to eq('Initializing...')
+    expect(parsed_log['programName']).to eq('my_great_app')
+  end
 end
