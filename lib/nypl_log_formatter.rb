@@ -13,6 +13,18 @@ class NyplLogFormatter < ::Logger
     allow_arbitrary_keys
   end
 
+  def silence(temporary_level = NyplLogFormatter::ERROR)
+    old_local_level = self.level
+    begin
+      self.level = temporary_level
+      yield self
+    rescue Exception
+      self.level = old_local_level
+    ensure
+      self.level = old_local_level
+    end
+  end
+
   private
 
   # Redefines #log(), #error(), etc...but explodes the `progname` arg
