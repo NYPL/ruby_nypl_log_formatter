@@ -74,6 +74,22 @@ logger.error(
 
 ```
 
+### Logging Levels
+
+You can set logging threshold to control what severity of log is written either in the initializer:
+
+```
+Application.logger = NyplLogFormatter.new(STDOUT, level: 'info')
+```
+
+Or using the `level=` setter:
+
+```
+Application.logger.level = 'info'
+```
+
+See [Logger notes on supported levels](https://github.com/ruby/logger/blob/78725003c190275f2e8a7c84af038c3c6d9e8209/lib/logger.rb#L168-L191)
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
